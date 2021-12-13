@@ -4,6 +4,7 @@ import router from './router';
 import vuetify from './plugins/vuetify';
 import VueLodash from 'vue-lodash';
 import lodash from 'lodash';
+import moment from 'moment';
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
@@ -18,6 +19,12 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 Vue.use(VueLodash, { lodash: lodash });
+
+Vue.filter('formatDateTime', function(value) {
+  if (value) {  
+    return moment(value).format("DD/MM/YYYY HH:mm:ss");
+  }
+});
 
 new Vue({
   vuetify,

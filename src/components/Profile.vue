@@ -23,85 +23,383 @@
     <v-row justify="center" v-if="match">
       <v-expansion-panels accordion>
         <v-expansion-panel v-for="match in matches" :key="match.info">
-          <v-expansion-panel-header>{{
-            match.info.gameId
-          }}</v-expansion-panel-header>
+          <v-expansion-panel-header class=""
+            >{{ match.info.gameCreation | formatDateTime }}
+            {{ match.info.gameMode }}</v-expansion-panel-header
+          >
           <v-expansion-panel-content>
             <v-item-group active-class="primary">
               <v-container>
                 <v-row>
                   <v-col cols="12" md="6">
-                    <v-item>
-                      <v-card  class="mx-auto" :color="match.info.teams[0].win ? '#B2EBF2' : '#FFCDD2'">
-                         <v-subheader inset>{{ match.info.teams[0].win ? "Victoria" : "Derrota" }}</v-subheader>
-                      
-                        <v-list-item
-                          v-for="participant in match.info.participants.filter(
-                            (e) => e.teamId == 100
-                          )"
-                          :key="participant.summonerId"
-                        >
-                          <v-list-item-avatar>
-                            <v-img
-                              :src="
-                                'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/' +
-                                participant.championName +
-                                '.png'
-                              "
-                            ></v-img>
-                          </v-list-item-avatar>
-                          <v-list-item-content>
-                            <v-list-item-title
-                              v-html="participant.summonerName"
-                            ></v-list-item-title>
-                            <v-list-item-subtitle>
-                              Daño
-                              <strong>{{
-                                Math.ceil(participant.totalDamageDealtToChampions)
-                              }}</strong>
-                            </v-list-item-subtitle>
-                          </v-list-item-content>
-                          <v-list-item-action> </v-list-item-action>
-                        </v-list-item>
-                      </v-card>
-                    </v-item>
+                    <v-card
+                      class="mx-auto"
+                      :color="match.info.teams[0].win ? '#B2EBF2' : '#FFCDD2'"
+                    >
+                      <v-subheader>{{
+                        match.info.teams[0].win ? "Victoria" : "Derrota"
+                      }}</v-subheader>
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left">Campeon</th>
+                              <th class="text-left">Invocador</th>
+                              <th class="text-left">KDA</th>
+                              <th class="text-center">Objetos</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="participant in match.info.participants.filter(
+                                (e) => e.teamId == 100
+                              )"
+                              :key="participant.summonerId"
+                            >
+                              <td>
+                                <img
+                                  :src="
+                                    'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/' +
+                                    participant.championName +
+                                    '.png'
+                                  "
+                                  alt="user"
+                                  class="rounded-circle"
+                                  width="40"
+                                />
+                              </td>
+                              <td>{{ participant.summonerName }}</td>
+                              <td>
+                                {{ participant.kills }}/{{
+                                  participant.deaths
+                                }}/{{ participant.assists }}
+                              </td>
+                              <td>
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <tbody>
+                                      <tr>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item0 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item0"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item1 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item1"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item2 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item2"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item3 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item3"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item4 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item4"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item5 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item5"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item6 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item6"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </v-card>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-item>
-                      <v-card class="mx-auto" :color="match.info.teams[1].win ? '#B2EBF2' : '#FFCDD2'">
-                         <v-subheader inset>{{ match.info.teams[1].win ? "Victoria" : "Derrota" }}</v-subheader>
-                        <v-list-item
-                          v-for="participant in match.info.participants.filter(
-                            (e) => e.teamId == 200
-                          )"
-                          :key="participant.summonerId"
-                        >
-                          <v-list-item-avatar>
-                            <v-img
-                              :src="
-                                'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/' +
-                                participant.championName +
-                                '.png'
-                              "
-                            ></v-img>
-                          </v-list-item-avatar>
-
-                          <v-list-item-content>
-                            <v-list-item-title
-                              v-html="participant.summonerName"
-                            ></v-list-item-title>
-                            <v-list-item-subtitle>
-                              Daño
-                              <strong>{{
-                                Math.ceil(participant.totalDamageDealtToChampions)
-                              }}</strong>
-                            </v-list-item-subtitle>
-                           
-                          </v-list-item-content>
-                            <v-list-item-action> </v-list-item-action>
-                        </v-list-item>
-                      </v-card>
-                    </v-item>
+                    <v-card
+                      class="mx-auto"
+                      :color="match.info.teams[1].win ? '#B2EBF2' : '#FFCDD2'"
+                    >
+                      <v-subheader>{{
+                        match.info.teams[1].win ? "Victoria" : "Derrota"
+                      }}</v-subheader>
+                    <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left">Campeon</th>
+                              <th class="text-left">Invocador</th>
+                              <th class="text-left">KDA</th>
+                              <th class="text-center">Objetos</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="participant in match.info.participants.filter(
+                                (e) => e.teamId == 200
+                              )"
+                              :key="participant.summonerId"
+                            >
+                              <td>
+                                <img
+                                  :src="
+                                    'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/' +
+                                    participant.championName +
+                                    '.png'
+                                  "
+                                  alt="user"
+                                  class="rounded-circle"
+                                  width="40"
+                                />
+                              </td>
+                              <td>{{ participant.summonerName }}</td>
+                              <td>
+                                {{ participant.kills }}/{{
+                                  participant.deaths
+                                }}/{{ participant.assists }}
+                              </td>
+                              <td>
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <tbody>
+                                      <tr>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item0 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item0"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item1 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item1"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item2 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item2"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item3 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item3"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item4 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item4"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item5 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item5"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                        <td class="px-0">
+                                          <img
+                                            :src="
+                                              'http://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/' +
+                                              participant.item6 +
+                                              '.png'
+                                            "
+                                            alt="user"
+                                            width="30"
+                                            v-if="participant.item6"
+                                          />
+                                          <img
+                                            :src="'https://opgg-static.akamaized.net/images/pattern/opacity.1.png'"
+                                            alt="user"
+                                            width="30"
+                                            v-else
+                                          />
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </v-card>
                   </v-col>
                 </v-row>
               </v-container>
