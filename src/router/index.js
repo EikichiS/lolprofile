@@ -15,7 +15,6 @@ export default new Router({
             name: 'Profile',
             path: '/:name/:region',
             component: () => import('@/components/Profile'),
-
         },
     ],
 

@@ -20,8 +20,9 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-row justify="center" v-if="match">
-      <v-expansion-panels accordion>
+    <v-row justify="center" >
+      <Loader :visible="!match" />
+      <v-expansion-panels accordion v-if="match">
         <v-expansion-panel v-for="match in matches" :key="match.info">
           <v-expansion-panel-header class=""
             >{{ match.info.gameCreation | formatDateTime }}
@@ -68,7 +69,11 @@
                                   width="40"
                                 />
                               </td>
-                              <td>{{ participant.summonerName }}</td>
+                              <td>                              <a @click="
+                                  () => {
+                                    (match = false),getProfile(participant.summonerName,region);
+                                  }
+                                ">{{ participant.summonerName }} </a></td>
                               <td>
                                 {{ participant.kills }}/{{
                                   participant.deaths
@@ -224,7 +229,7 @@
                       <v-subheader>{{
                         match.info.teams[1].win ? "Victoria" : "Derrota"
                       }}</v-subheader>
-                    <v-simple-table>
+                      <v-simple-table>
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -253,7 +258,13 @@
                                   width="40"
                                 />
                               </td>
-                              <td>{{ participant.summonerName }}</td>
+                              <td>
+                              <a @click="
+                                  () => {
+                                    (match = false),getProfile(participant.summonerName,region);
+                                  }
+                                ">{{ participant.summonerName }} </a>
+                              </td>
                               <td>
                                 {{ participant.kills }}/{{
                                   participant.deaths

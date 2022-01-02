@@ -1,16 +1,18 @@
 <template>
-<v-card>
-  <v-app-bar color="#80CBC4" dark>
+  <v-card>
+    <v-app-bar color="blue-grey darken-4" dark>
       <v-toolbar-title>LOL Profile</v-toolbar-title>
-      <v-tabs >
-        <v-tab
+      <template v-slot:extension>
+      <v-tabs centered icons-and-text hide-slider>
+        <v-tab class="pb-2"
           :to="{
             name: 'Search',
           }"
-          >Home</v-tab
+          >Buscar<v-icon>mdi-magnify</v-icon></v-tab
         >
       </v-tabs>
-  </v-app-bar>
+      </template>
+    </v-app-bar>
   </v-card>
 </template>
 
