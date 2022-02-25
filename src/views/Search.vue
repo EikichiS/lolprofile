@@ -1,19 +1,19 @@
 <template> 
   <v-container fluid class="pa-5 body-color">
-    <v-card class="mx-auto my-12 px-12 py-5"  
-      ><v-form ref="form" lazy-validation>
-        <v-row class="text-right" align="center">
-          <v-col cols="4">
+    <v-form ref="form"  lazy-validation>
+        <v-row align="end">
+          <v-col cols="12" md="4">
             <v-text-field
               v-model="summonerName"
               label="Nombre de Invocador"
               placeholder="ingresa tu nombre invocador"
-              :rules="[required('Nombre de Invocador')]"
+              :rules="[(v) => !!v || 'Ingresa tu nombre de invocador']"
+              solo
               required
             ></v-text-field>
           </v-col>
 
-          <v-col cols="4">
+          <v-col cols="12" md="4">
             <v-select
               v-model="region"
               :items="items"
@@ -23,14 +23,16 @@
               persistent-hint
               return-object
               required
+              solo
               :rules="[(v) => !!v || 'Tienes que elegir una region']"
               color="#FFFFFF"
             ></v-select>
           </v-col>
-          <v-col>
+          <v-col align-self="start">
             <v-btn
               block
               depressed
+              large
               elevation="2"
               color="#0288D1"
               style=" color:#FFFFFF;"
@@ -41,54 +43,6 @@
           </v-col>
         </v-row>
       </v-form>
-    </v-card>
-<v-footer
-    dark
-    padless
-    absolute
-  >
-    <v-card
-      flat
-      tile
-      class="white--text text-center flex"
-      color="blue-grey darken-4"
-    >
-      <v-card-text>
-        <v-btn
-          class="mx-4 white--text"
-          icon
-          href="https://github.com/EikichiS"
-        >
-          <v-icon size="24px">
-            mdi-github
-          </v-icon>
-        </v-btn>
-        <v-btn
-          class="mx-4 white--text"
-          icon
-          href="https://eikichis.cl"
-        >
-          <v-icon size="24px">
-            mdi-web
-          </v-icon>
-        </v-btn>
-        <v-btn
-          class="mx-4 white--text"
-          icon
-        >
-          <v-icon size="24px">
-            mdi-linkedin
-          </v-icon>
-        </v-btn>
-      </v-card-text>
-
-
-
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>EikichiS.cl</strong>
-      </v-card-text>
-    </v-card>
-  </v-footer>
   </v-container>
 </template>
 
